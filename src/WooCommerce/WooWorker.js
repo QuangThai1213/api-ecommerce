@@ -128,13 +128,30 @@ export default class WooWorker {
       console.log(err);
     }
   };
+  static createReviews = async (product_id, review, reviewer, reviewer_email, rating) => {
+    let post_data = {
+      product_id: product_id,
+      review: review,
+      reviewer: reviewer,
+      reviewer_email: reviewer_email,
+      rating: rating,
+    };
+    try {
+      const response = await this._api.post("products/reviews", post_data);
+      const json = response.json();
+
+      return json;
+    } catch (err) {
+      console.log(err);
+    }
+  };
   static createOrder = async data => {
     try {
       const response = await this._api.post("orders", data);
       const json = response.json();
 
       if (json.id != 'undefined') {
-        this._api.post(`orders/${json.id}`, {status: 'processing'});
+        this._api.post(`orders/${json.id}`, { status: 'processing' });
       }
 
       return json;
@@ -232,7 +249,7 @@ export default class WooWorker {
       const json = await response.json();
 
       if (json.id != 'undefined') {
-        this._api.post(`orders/${json.id}`, {status: 'processing'});
+        this._api.post(`orders/${json.id}`, { status: 'processing' });
       }
 
       if (json.code === undefined) {
