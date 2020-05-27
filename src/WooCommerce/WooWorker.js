@@ -248,6 +248,7 @@ export default class WooWorker {
       } else {
         typeof failCallBack === "function" && failCallBack();
       }
+      return json
     } catch (error) {
       console.log(error);
     }
