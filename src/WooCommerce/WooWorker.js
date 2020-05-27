@@ -149,11 +149,6 @@ export default class WooWorker {
     try {
       const response = await this._api.post("orders", data);
       const json = response.json();
-
-      // if (json.id != 'undefined') {
-      //   this._api.post(`orders/${json.id}`, { status: 'processing' });
-      // }
-
       return json;
     } catch (err) {
       console.log(err);
@@ -247,10 +242,6 @@ export default class WooWorker {
     try {
       const response = await this._api.post("orders", data);
       const json = await response.json();
-
-  // if (json.id != 'undefined') {
-  //       this._api.post(`orders/${json.id}`, { status: 'processing' });
-  //     }    
 
       if (json.code === undefined) {
         callback(json);
