@@ -1,6 +1,4 @@
 import WooWorker from "./src/WooCommerce/WooWorker";
-import WCAPI from "./src/WooCommerce/WooCommerceAPI";
+import MagentoWorker from "./src/Magento/MagentoWorker";
 
-// import AuthWorker from "./src/Authentication/AuthWorker";
-
-export { WooWorker, WCAPI };
+export { WooWorker, MagentoWorker };
