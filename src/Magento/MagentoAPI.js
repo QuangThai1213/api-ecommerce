@@ -1,15 +1,3 @@
-
-// const defaultOptions = {
-//     url: null,
-//     store: 'default',
-//     userAgent: 'QuangThai',
-//     home_cms_block_id: '',
-//     authentication: {
-//       integration: {
-//         access_token: undefined,
-//       },
-//     },
-//   };
 function MagentoAPI(opt) {
     if (!(this instanceof MagentoAPI)) {
         return new MagentoAPI(opt);
@@ -28,9 +16,8 @@ function MagentoAPI(opt) {
 
 MagentoAPI.prototype._setDefaultsOptions = function (opt) {
     this.url = opt.url;
-    this.wpAPI = opt.wpAPI || false;
-    this.wpAPIPrefix = opt.wpAPIPrefix || "wp-json";
-    this.store = opt.store || "default";
+    this.API = opt.API || false;
+    this.APIPrefix = opt.APIPrefix || "/api";
     this.isSsl = /^https/i.test(this.url);
     this.access_token = opt.access_token;
     this.verifySsl = opt.verifySsl;
@@ -66,10 +53,9 @@ MagentoAPI.prototype._normalizeQueryString = function (url) {
     return `${url.split("?")[0]}?${queryString}`;
 };
 
-MagentoAPI.prototype._getUrl = function (endpoint, store, version) {
+MagentoAPI.prototype._getUrl = function (endpoint, version) {
     let url = this.url.slice(-1) === "/" ? this.url : `${this.url}/`;
-    const api = this.wpAPI ? `${this.wpAPIPrefix}/` : "api/";
-    // this.store = store ? store : "default/";
+    const api = this.API ? `${this.APIPrefix}/` : "api/";
     this.version = version ? version : "v1";
     url = `${url + api + this.version}/${endpoint}`;
 
@@ -94,8 +80,8 @@ MagentoAPI.prototype.join = function (obj, separator) {
     return arr.join(separator);
 };
 
-MagentoAPI.prototype._request = async function (method, endpoint, newData, store = null) {
-    const url = this._getUrl(endpoint, store, this.version);
+MagentoAPI.prototype._request = async function (method, endpoint, newData) {
+    const url = this._getUrl(endpoint, this.version);
     let data = {
         ...newData,
         // lang: this.language,
@@ -117,14 +103,12 @@ MagentoAPI.prototype._request = async function (method, endpoint, newData, store
     if (method == "GET") {
         params.headers = {
             "Content-Type": "application/json",
-            "api-key": "ck_d4c40f6b6745e26675af42f31c7c840582b93759",
-            "api-secret": "cs_fa0cc67db6548c9705d317e8aeb293fa83336d38"
+            "api-token": this.access_token,
         };
     } else if (method == "POST") {
         params.headers = {
             "Content-Type": "application/json",
-            "api-key": "ck_d4c40f6b6745e26675af42f31c7c840582b93759",
-            "api-secret": "cs_fa0cc67db6548c9705d317e8aeb293fa83336d38"
+            "api-token": this.access_token,
         };
         params.body = JSON.stringify(data);
     }
@@ -138,8 +122,8 @@ MagentoAPI.prototype._request = async function (method, endpoint, newData, store
         );
 };
 
-MagentoAPI.prototype.get = async function (endpoint, data, store) {
-    return await this._request("GET", endpoint, data, store);
+MagentoAPI.prototype.get = async function (endpoint, data) {
+    return await this._request("GET", endpoint, data);
 };
 
 MagentoAPI.prototype.post = async function (endpoint, data, callback) {
