@@ -1,5 +1,5 @@
-import MagentoAPI from "./ECMobileAPI";
-export default class MagentoWorker {
+import ECMobileAPI from "./ECMobileAPI";
+export default class ECMobileWorker {
     _api = null;
 
     static init = ({
@@ -9,7 +9,7 @@ export default class MagentoWorker {
         language
     }) => {
         try {
-            this._api = new MagentoAPI({
+            this._api = new ECMobileAPI({
                 url,
                 access_token,
                 version,
