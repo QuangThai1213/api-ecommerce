@@ -1,6 +1,6 @@
-function MagentoAPI(opt) {
-    if (!(this instanceof MagentoAPI)) {
-        return new MagentoAPI(opt);
+function ECmobileAPI(opt) {
+    if (!(this instanceof ECmobileAPI)) {
+        return new ECmobileAPI(opt);
     }
 
     let newOpt = opt || {};
@@ -14,7 +14,7 @@ function MagentoAPI(opt) {
     this._setDefaultsOptions(newOpt);
 }
 
-MagentoAPI.prototype._setDefaultsOptions = function (opt) {
+ECmobileAPI.prototype._setDefaultsOptions = function (opt) {
     this.url = opt.url;
     this.API = opt.API || false;
     this.APIPrefix = opt.APIPrefix || "/api";
@@ -29,7 +29,7 @@ MagentoAPI.prototype._setDefaultsOptions = function (opt) {
     this.language = opt.language || "en";
 };
 
-MagentoAPI.prototype._normalizeQueryString = function (url) {
+ECmobileAPI.prototype._normalizeQueryString = function (url) {
     // Exit if don't find query string
     if (url.indexOf("?") === -1) return url;
 
@@ -53,7 +53,7 @@ MagentoAPI.prototype._normalizeQueryString = function (url) {
     return `${url.split("?")[0]}?${queryString}`;
 };
 
-MagentoAPI.prototype._getUrl = function (endpoint, version) {
+ECmobileAPI.prototype._getUrl = function (endpoint, version) {
     let url = this.url.slice(-1) === "/" ? this.url : `${this.url}/`;
     const api = this.API ? `${this.APIPrefix}/` : "api/";
     this.version = version ? version : "v1";
@@ -70,7 +70,7 @@ MagentoAPI.prototype._getUrl = function (endpoint, version) {
     return url;
 };
 
-MagentoAPI.prototype.join = function (obj, separator) {
+ECmobileAPI.prototype.join = function (obj, separator) {
     const arr = [];
     for (const key in obj) {
         if (obj.hasOwnProperty(key)) {
@@ -80,7 +80,7 @@ MagentoAPI.prototype.join = function (obj, separator) {
     return arr.join(separator);
 };
 
-MagentoAPI.prototype._request = async function (method, endpoint, newData) {
+ECmobileAPI.prototype._request = async function (method, endpoint, newData) {
     const url = this._getUrl(endpoint, this.version);
     let data = {
         ...newData,
@@ -122,24 +122,24 @@ MagentoAPI.prototype._request = async function (method, endpoint, newData) {
         );
 };
 
-MagentoAPI.prototype.get = async function (endpoint, data) {
+ECmobileAPI.prototype.get = async function (endpoint, data) {
     return await this._request("GET", endpoint, data);
 };
 
-MagentoAPI.prototype.post = async function (endpoint, data, callback) {
+ECmobileAPI.prototype.post = async function (endpoint, data, callback) {
     return await this._request("POST", endpoint, data, callback);
 };
 
-MagentoAPI.prototype.put = async function (endpoint, data, callback) {
+ECmobileAPI.prototype.put = async function (endpoint, data, callback) {
     return await this._request("PUT", endpoint, data, callback);
 };
 
-MagentoAPI.prototype.delete = async function (endpoint, callback) {
+ECmobileAPI.prototype.delete = async function (endpoint, callback) {
     return await this._request("DELETE", endpoint, null, callback);
 };
 
-MagentoAPI.prototype.options = async function (endpoint, callback) {
+ECmobileAPI.prototype.options = async function (endpoint, callback) {
     return await this._request("OPTIONS", endpoint, null, callback);
 };
 
-export default MagentoAPI;
+export default ECmobileAPI;

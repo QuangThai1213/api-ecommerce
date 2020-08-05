@@ -1,4 +1,4 @@
 import WooWorker from "./src/WooCommerce/WooWorker";
-import MagentoWorker from "./src/Magento/MagentoWorker";
+import MagentoWorker from "./src/ECMobileAPI/ECMobileWorker";
 
 export { WooWorker, MagentoWorker };

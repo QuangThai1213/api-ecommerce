@@ -1,34 +1,17 @@
-import MagentoAPI from "./MagentoAPI";
-// const defaultOptions = {
-//     url: null,
-//     store: 'default',
-//     userAgent: 'QuangThai',
-//     home_cms_block_id: '',
-//     authentication: {
-//       integration: {
-//         access_token: undefined,
-//       },
-//     },
-//   };
+import MagentoAPI from "./ECMobileAPI";
 export default class MagentoWorker {
     _api = null;
 
     static init = ({
         url,
-        store = "default",
-        userAgent = "",
         access_token,
-        home_cms_block_id = "",
-        version = "2",
+        version = "v1",
         language
     }) => {
         try {
             this._api = new MagentoAPI({
                 url,
-                store,
-                userAgent,
                 access_token,
-                home_cms_block_id,
                 version,
                 language
             });
@@ -36,6 +19,7 @@ export default class MagentoWorker {
             console.log(error);
         }
     };
+
 
     static getCategories = async () => {
         try {
