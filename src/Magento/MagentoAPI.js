@@ -68,10 +68,10 @@ MagentoAPI.prototype._normalizeQueryString = function (url) {
 
 MagentoAPI.prototype._getUrl = function (endpoint, store, version) {
     let url = this.url.slice(-1) === "/" ? this.url : `${this.url}/`;
-    const api = this.wpAPI ? `${this.wpAPIPrefix}/` : "rest/";
-    this.store = store ? store : "default/";
-    this.version = version ? version : "V1";
-    url = `${url + api + this.store + this.version}/${endpoint}`;
+    const api = this.wpAPI ? `${this.wpAPIPrefix}/` : "api/";
+    // this.store = store ? store : "default/";
+    this.version = version ? version : "v1";
+    url = `${url + api + this.version}/${endpoint}`;
 
     // Include port.
     if (this.port !== "") {
@@ -115,14 +115,20 @@ MagentoAPI.prototype._request = async function (method, endpoint, newData, store
     params.qs = data
 
     if (method == "GET") {
-        params.headers = { "Content-Type": "application/json", };
+        params.headers = {
+            "Content-Type": "application/json",
+            "api-key": "ck_d4c40f6b6745e26675af42f31c7c840582b93759",
+            "api-secret": "cs_fa0cc67db6548c9705d317e8aeb293fa83336d38"
+        };
     } else if (method == "POST") {
         params.headers = {
             "Content-Type": "application/json",
+            "api-key": "ck_d4c40f6b6745e26675af42f31c7c840582b93759",
+            "api-secret": "cs_fa0cc67db6548c9705d317e8aeb293fa83336d38"
         };
         params.body = JSON.stringify(data);
     }
-    params.headers.Authorization = `Bearer ${this.access_token}`;
+    // params.headers.Authorization = `Bearer ${this.access_token}`;
     params.url = `${params.url}?${this.join(params.qs, "&")}`;
 
     return await fetch(params.url, params)

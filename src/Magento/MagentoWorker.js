@@ -37,11 +37,13 @@ export default class MagentoWorker {
         }
     };
 
-    static getCategoriesList = async () => {
+    static getCategories = async () => {
         try {
-            const response = await this._api.get("categories/list", {
-                "searchCriteria[pageSize]": 99,
-                "searchCriteria[currentPage]": 1
+            const response = await this._api.get("category", {
+                hide_empty: true,
+                per_page: 100,
+                order: "desc",
+                orderby: "count"
             });
             return response.json();
         } catch (err) {
